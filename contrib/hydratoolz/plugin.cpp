@@ -162,7 +162,11 @@ GSList *AddToWadList( GSList *wadlist, const char *shadername, const char *wad )
 
 	for ( GSList *l = wadlist; l != NULL ; l = l->next )
 	{
+#ifndef __OpenBSD__
 		if ( !stricmp( (char *)l->data,wadname ) ) {
+#else
+		if ( !strcmp( (char *)l->data,wadname ) ) {
+#endif
 			free( wadname );
 			return wadlist;
 		}
@@ -198,7 +202,11 @@ void UpdateWadKeyPair( void ){
 	Sys_Printf( "HydraToolz: Searching for in-use wad files...\n" );
 	for ( pEpair = pEntity->epairs; pEpair != NULL; pEpair = pEpair->next )
 	{
+#ifndef __OpenBSD__
 		if ( stricmp( pEpair->key,"wad" ) == 0 ) {
+#else
+		if ( strcmp( pEpair->key,"wad" ) == 0 ) {
+#endif
 			strcpy( wads,pEpair->value );
 			HYDRA_ConvertDOSToUnixName( wads,wads );
 
@@ -289,7 +297,11 @@ void UpdateWadKeyPair( void ){
 	while ( wadlist )
 	{
 		// skip wad files if they start with "common-"
+#ifndef __OpenBSD__
 		if ( strnicmp( (char *)wadlist->data,"common-",7 ) == 0 ) {
+#else
+		if ( strncmp( (char *)wadlist->data,"common-",7 ) == 0 ) {
+#endif
 			Sys_Printf( "HydraToolz: Skipping radiant/user-supplied wad file %s\n",(char *)wadlist->data );
 		}
 		else

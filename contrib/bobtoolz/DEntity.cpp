@@ -320,7 +320,7 @@ bool DEntity::LoadFromEntity( entity_t* ent, bool bLoadPatches ) {
 	int i;
 	for ( i = 0; brushEntityList[i]; i++ )
 	{
-		if ( !stricmp( brushEntityList[i], m_Classname ) ) {
+		if ( !strcmp( brushEntityList[i], m_Classname ) ) {
 			keep = TRUE;
 			break;
 		}

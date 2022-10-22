@@ -91,7 +91,7 @@ DTreePlanter() {
 	}
 }
 
-#define MT( t )   !stricmp( pToken, t )
+#define MT( t )   !strcmp( pToken, t )
 #define GT      pToken = pScriptParser->GetToken( true )
 #define CT      if ( !*pToken ) { return; }
 

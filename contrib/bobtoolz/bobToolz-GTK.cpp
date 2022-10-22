@@ -67,43 +67,43 @@ extern "C" const char* QERPlug_GetCommandList() {
 extern "C" void QERPlug_Dispatch( const char *p, vec3_t vMin, vec3_t vMax, bool bSingleBrush ) {
 	LoadLists();
 
-	if ( !stricmp( p, "brush cleanup" ) ) {
+	if ( !strcmp( p, "brush cleanup" ) ) {
 		DoFixBrushes();
 	}
-	else if ( !stricmp( p, "polygon builder" ) ) {
+	else if ( !strcmp( p, "polygon builder" ) ) {
 		DoPolygonsTB();
 	}
-	else if ( !stricmp( p, "caulk selection" ) ) {
+	else if ( !strcmp( p, "caulk selection" ) ) {
 		DoCaulkSelection();
 	}
-	else if ( !stricmp( p, "tree planter" ) ) {
+	else if ( !strcmp( p, "tree planter" ) ) {
 		DoTreePlanter();
 	}
-	else if ( !stricmp( p, "plot splines" ) ) {
+	else if ( !strcmp( p, "plot splines" ) ) {
 		DoTrainPathPlot();
 	}
-	else if ( !stricmp( p, "drop entity" ) ) {
+	else if ( !strcmp( p, "drop entity" ) ) {
 		DoDropEnts();
 	}
-	else if ( !stricmp( p, "merge patches" ) ) {
+	else if ( !strcmp( p, "merge patches" ) ) {
 		DoMergePatches();
 	}
-	else if ( !stricmp( p, "split patches" ) ) {
+	else if ( !strcmp( p, "split patches" ) ) {
 		DoSplitPatch();
 	}
-	else if ( !stricmp( p, "turn edge" ) ) {
+	else if ( !strcmp( p, "turn edge" ) ) {
 		DoFlipTerrain();
 	}
-	else if ( !stricmp( p, "reset textures..." ) ) {
+	else if ( !strcmp( p, "reset textures..." ) ) {
 		DoResetTextures();
 	}
-	else if ( !stricmp( p, "pitomatic" ) ) {
+	else if ( !strcmp( p, "pitomatic" ) ) {
 		DoPitBuilder( vMin, vMax );
 	}
-	else if ( !stricmp( p, "vis viewer" ) ) {
+	else if ( !strcmp( p, "vis viewer" ) ) {
 		DoVisAnalyse();
 	}
-	else if ( !stricmp( p, "About" ) ) {
+	else if ( !strcmp( p, "About" ) ) {
 		DoMessageBox( PLUGIN_ABOUT, "About", MB_OK );
 	}
 }

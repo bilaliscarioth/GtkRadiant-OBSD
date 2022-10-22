@@ -239,7 +239,11 @@ eclass_t *Eclass_InitFromText( char *text ){
 	char *pAngle = NULL;
 	setSpecialLoad( e, "eangle=", pAngle );
 	if ( pAngle != NULL ) {
+#if !defined(__OpenBSD__)
 		if ( strcmpi( pAngle, "true" ) == 0 || atoi( pAngle ) == 1 ) {
+#else
+		if ( strcmp( pAngle, "true" ) == 0 || atoi( pAngle ) == 1 ) {
+#endif
 			e->nShowFlags |= ECLASS_ANGLE;
 		}
 		delete pAngle;
@@ -251,25 +255,45 @@ eclass_t *Eclass_InitFromText( char *text ){
 
 	// setup show flags
 	e->nShowFlags = 0;
+#if !defined(__OpenBSD__)
 	if ( strcmpi( e->name, "light" ) == 0 || strcmpi( e->name, "dlight" ) == 0
 			|| strcmpi( e->name, "lightjunior" ) == 0 || strcmpi( e->name, "light_spot" ) == 0 ) {
+#else
+	if ( strcmp( e->name, "light" ) == 0 || strcmp( e->name, "dlight" ) == 0
+			|| strcmp( e->name, "lightjunior" ) == 0 || strcmp( e->name, "light_spot" ) == 0 ) {
+#endif
 		e->nShowFlags |= ECLASS_LIGHT;
 	}
-
+#if !defined(__OpenBSD__)
 	if (  ( strnicmp( e->name, "info_player", strlen( "info_player" ) ) == 0 )
 		  || ( strnicmp( e->name, "path_corner", strlen( "path_corner" ) ) == 0 )
 		  || ( strnicmp( e->name, "team_ctf", strlen( "team_ctf" ) ) == 0 )
 		  || ( strnicmp( e->name, "misc_teleporter_dest", strlen( "misc_teleporter_dest" ) ) == 0 )
 		  ) {
+#else
+	if (  ( strncmp( e->name, "info_player", strlen( "info_player" ) ) == 0 )
+		  || ( strncmp( e->name, "path_corner", strlen( "path_corner" ) ) == 0 )
+		  || ( strncmp( e->name, "team_ctf", strlen( "team_ctf" ) ) == 0 )
+		  || ( strncmp( e->name, "misc_teleporter_dest", strlen( "misc_teleporter_dest" ) ) == 0 )
+		  ) {
+#endif
 		e->nShowFlags |= ECLASS_ANGLE;
 	}
 	for ( i = 0 ; i < MAX_FLAGS ; i++ )
 	{
+#if !defined(__OpenBSD__)
 		if ( e->flagnames[i] && e->flagnames[i][0] != 0 && strcmpi( e->flagnames[i], "angle" ) && e->fixedsize ) {
+#else
+		if ( e->flagnames[i] && e->flagnames[i][0] != 0 && strcmp( e->flagnames[i], "angle" ) && e->fixedsize ) {
+#endif
 			e->nShowFlags |= ECLASS_ANGLE;
 		}
 	}
+#if !defined(__OpenBSD__)
 	if ( strcmpi( e->name, "path" ) == 0 ) {
+#else
+	if ( strcmp( e->name, "path" ) == 0 ) {
+#endif
 		e->nShowFlags |= ECLASS_PATH;
 	}
 	if ( IsModelEntity( e->name ) == qtrue ) {

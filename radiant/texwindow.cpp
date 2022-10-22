@@ -1027,7 +1027,11 @@ void Texture_ResetPosition(){
 		Texture_GetSize( q, nWidth, nHeight );
 		// we have found when texdef->name and the shader name match
 		// NOTE: as everywhere else for our comparisons, we are not case sensitive
+#if !defined(__OpenBSD__)
 		if ( !strcmpi( g_qeglobals.d_texturewin.texdef.GetName(), pCurrentShader->getName() ) ) {
+#else
+		if ( !strcmp( g_qeglobals.d_texturewin.texdef.GetName(), pCurrentShader->getName() ) ) {
+#endif
 			// take care of calls before initialized
 			if ( !g_qeglobals.d_texturewin.height ) {
 				g_qeglobals.d_texturewin.originy = 0;
@@ -1655,7 +1659,11 @@ void Texture_Draw( int width, int height ){
 			// shaders have a white border, simple textures don't
 			// if !texture_showinuse: (some textures displayed may not be in use)
 			// draw an additional square around with 0.5 1 0.5 color
+#if !defined(__OpenBSD__)
 			if ( !strcmpi( g_qeglobals.d_texturewin.texdef.GetName(), pCurrentShader->getName() ) ) {
+#else
+			if ( !strcmp( g_qeglobals.d_texturewin.texdef.GetName(), pCurrentShader->getName() ) ) {
+#endif
 				qglLineWidth( 3 );
 				qglColor3f( 1,0,0 );
 				qglDisable( GL_TEXTURE_2D );
@@ -1790,7 +1798,11 @@ int WINAPI Texture_LoadSkin( char *pName, int *pnWidth, int *pnHeight ){
 	{
 		SkinInfo *pInfo = reinterpret_cast<SkinInfo*>( g_lstSkinCache.GetAt( i ) );
 		if ( pInfo ) {
+#if !defined(__OpenBSD__)
 			if ( stricmp( pCleanName, pInfo->m_strName ) == 0 ) {
+#else
+			if ( strcmp( pCleanName, pInfo->m_strName ) == 0 ) {
+#endif
 				return pInfo->m_nTextureBind;
 			}
 		}

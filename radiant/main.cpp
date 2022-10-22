@@ -19,7 +19,7 @@
    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#if defined( __linux__ ) || defined( __FreeBSD__ ) || defined( __APPLE__ )
+#if defined( __linux__ ) || defined( __FreeBSD__ ) || defined( __APPLE__ ) || defined(__OpenBSD__)
   #include <gdk/gdkx.h>
   #include <pwd.h>
   #include <unistd.h>
@@ -118,7 +118,7 @@ static void create_splash() {
 // =============================================================================
 // Loki stuff
 
-#if defined( __linux__ ) || defined( __FreeBSD__ ) || defined( __APPLE__ )
+#if defined( __linux__ ) || defined( __FreeBSD__ ) || defined( __APPLE__ ) || defined(__OpenBSD__)
 
 /* A short game name, could be used as argv[0] */
 static char game_name[100] = "";
@@ -477,12 +477,14 @@ int mainRadiant( int argc, char* argv[] ) {
 			libgl = "libGL.so.1";
 		#elif defined ( __APPLE__ )
 			libgl = "/opt/local/lib/libGL.dylib";
+    #elif defined(__OpenBSD__)
+      libgl = "libGL.a";
 		#else
 			#error unknown architecture
 		#endif
 	}
 
-#if defined( __linux__ ) || defined( __FreeBSD__ ) || defined( __APPLE__ )
+#if defined( __linux__ ) || defined( __FreeBSD__ ) || defined( __APPLE__ ) || defined(__OpenBSD__)
 	// Give away unnecessary root privileges.
 	// Important: must be done before calling gtk_init().
 	char *loginname;
@@ -580,7 +582,7 @@ int mainRadiant( int argc, char* argv[] ) {
 
 #endif
 
-#if defined( __linux__ ) || defined( __FreeBSD__ ) || defined( __APPLE__ )
+#if defined( __linux__ ) || defined( __FreeBSD__ ) || defined( __APPLE__ ) || defined(__OpenBSD__)
 	Str home;
 	home = g_get_home_dir();
 	AddSlash( home );
@@ -862,7 +864,7 @@ int mainRadiant( int argc, char* argv[] ) {
 		return 1;
 	}
 
-#if defined( __linux__ ) || defined( __FreeBSD__ ) || defined( __APPLE__ )
+#if defined( __linux__ ) || defined( __FreeBSD__ ) || defined( __APPLE__ ) || defined(__OpenBSD__)
 	if ( ( qglXQueryExtension == NULL ) || ( qglXQueryExtension( gdk_x11_get_default_xdisplay(), NULL, NULL ) != True ) ) {
 		Sys_FPrintf( SYS_ERR, "glXQueryExtension failed\n" );
 		_exit( 1 );
@@ -1130,7 +1132,7 @@ void SaveWithRegion( char *name ){
 	Map_SaveFile( name, region_active );
 }
 
-#if defined( __linux__ ) || defined( __FreeBSD__ ) || defined( __APPLE__ )
+#if defined( __linux__ ) || defined( __FreeBSD__ ) || defined( __APPLE__ ) || defined(__OpenBSD__)
 typedef struct {
 	pid_t pid;
 	int status;
@@ -1242,7 +1244,7 @@ void RunBsp( char *command ){
 			strSys += "\n";
 		};
 
-#if defined( __linux__ ) || defined( __FreeBSD__ ) || defined( __APPLE__ )
+#if defined( __linux__ ) || defined( __FreeBSD__ ) || defined( __APPLE__ ) || defined(__OpenBSD__)
 
 		// write qe3bsp.sh
 		sprintf( batpath, "%sqe3bsp.sh", temppath );
@@ -1271,7 +1273,7 @@ void RunBsp( char *command ){
 
 		Pointfile_Delete();
 
-#if defined( __linux__ ) || defined( __FreeBSD__ ) || defined( __APPLE__ )
+#if defined( __linux__ ) || defined( __FreeBSD__ ) || defined( __APPLE__ ) || defined(__OpenBSD__)
 		bsp_child_process_t *process = ( bsp_child_process_t *) malloc( sizeof( bsp_child_process_t ) );
 		memset( process, 0, sizeof( *process ) );
 

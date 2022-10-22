@@ -134,7 +134,7 @@ CShader *CShaderArray::Shader_ForName( const char *name ) const {
 	for ( i = 0; i < CPtrArray::GetSize(); i++ )
 	{
 		CShader *pShader = static_cast < CShader * >( CPtrArray::GetAt( i ) );
-		if ( stricmp( pShader->getName(), name ) == 0 ) {
+		if ( strcmp( pShader->getName(), name ) == 0 ) {
 			return pShader;
 		}
 	}
@@ -523,31 +523,31 @@ bool CShader::Parse(){
 			if ( nMatch > 1 ) {
 				continue;       // ignore layers for now
 			}
-			if ( strcmpi( token, "qer_nocarve" ) == 0 ) {
+			if ( strcmp( token, "qer_nocarve" ) == 0 ) {
 				m_nFlags |= QER_NOCARVE;
 			}
-			else if ( strcmpi( token, "qer_trans" ) == 0 ) {
+			else if ( strcmp( token, "qer_trans" ) == 0 ) {
 				if ( g_ScripLibTable.m_pfnGetToken( true ) ) {
 					m_fTrans = (float) atof( token );
 				}
 				m_nFlags |= QER_TRANS;
 			}
-			else if ( strcmpi( token, "qer_editorimage" ) == 0 ) {
+			else if ( strcmp( token, "qer_editorimage" ) == 0 ) {
 				if ( g_ScripLibTable.m_pfnGetToken( true ) ) {
 					// bAddTexture changed to false to allow editorimages in other locations than "textures/"
 					m_strTextureName = QERApp_CleanTextureName( token, false );
 				}
 			}
-			else if ( strcmpi( token, "qer_alphafunc" ) == 0 ) {
+			else if ( strcmp( token, "qer_alphafunc" ) == 0 ) {
 				if ( g_ScripLibTable.m_pfnGetToken( true ) ) {
 
-					if ( stricmp( token, "greater" ) == 0 ) {
+					if ( strcmp( token, "greater" ) == 0 ) {
 						m_nAlphaFunc = GL_GREATER;
 					}
-					else if ( stricmp( token, "less" ) == 0 ) {
+					else if ( strcmp( token, "less" ) == 0 ) {
 						m_nAlphaFunc = GL_LESS;
 					}
-					else if ( stricmp( token, "gequal" ) == 0 ) {
+					else if ( strcmp( token, "gequal" ) == 0 ) {
 						m_nAlphaFunc = GL_GEQUAL;
 					}
 
@@ -559,12 +559,12 @@ bool CShader::Parse(){
 					m_fAlphaRef = (float) atof( token );
 				}
 			}
-			else if ( strcmpi( token, "cull" ) == 0 ) {
+			else if ( strcmp( token, "cull" ) == 0 ) {
 				if ( g_ScripLibTable.m_pfnGetToken( true ) ) {
-					if ( stricmp( token, "none" ) == 0 || stricmp( token, "twosided" ) == 0 || stricmp( token, "disable" ) == 0 ) {
+					if ( strcmp( token, "none" ) == 0 || strcmp( token, "twosided" ) == 0 || strcmp( token, "disable" ) == 0 ) {
 						m_nCull = 2;
 					}
-					else if ( stricmp( token, "back" ) == 0 || stricmp( token, "backside" ) == 0 || stricmp( token, "backsided" ) == 0 ) {
+					else if ( strcmp( token, "back" ) == 0 || strcmp( token, "backside" ) == 0 || strcmp( token, "backsided" ) == 0 ) {
 						m_nCull = 1;
 					}
 
@@ -573,24 +573,24 @@ bool CShader::Parse(){
 					}
 				}
 			}
-			else if ( strcmpi( token, "surfaceparm" ) == 0 ) {
+			else if ( strcmp( token, "surfaceparm" ) == 0 ) {
 				if ( g_ScripLibTable.m_pfnGetToken( true ) ) {
-					if ( strcmpi( token, "fog" ) == 0 ) {
+					if ( strcmp( token, "fog" ) == 0 ) {
 						m_nFlags |= QER_FOG;
 						if ( m_fTrans == 1.0f ) { // has not been explicitly set by qer_trans
 							m_fTrans = 0.35f;
 						}
 					}
-					else if ( strcmpi( token, "nodraw" ) == 0 ) {
+					else if ( strcmp( token, "nodraw" ) == 0 ) {
 						m_nFlags |= QER_NODRAW;
 					}
-					else if ( strcmpi( token, "nonsolid" ) == 0 ) {
+					else if ( strcmp( token, "nonsolid" ) == 0 ) {
 						m_nFlags |= QER_NONSOLID;
 					}
-					else if ( strcmpi( token, "water" ) == 0 ) {
+					else if ( strcmp( token, "water" ) == 0 ) {
 						m_nFlags |= QER_WATER;
 					}
-					else if ( strcmpi( token, "lava" ) == 0 ) {
+					else if ( strcmp( token, "lava" ) == 0 ) {
 						m_nFlags |= QER_LAVA;
 					}
 				}

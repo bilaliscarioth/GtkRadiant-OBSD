@@ -34,10 +34,11 @@
  * This causes glDisable(), glEnable(), glCullFace() and glPolygonMode() to
  * be wrapped in order to get around a bug in ATI's FireGL drivers.
  */
+
 #include <stdio.h>
 #include <float.h>
-#include <string.h>
-#if defined( __linux__ ) || defined( __FreeBSD__ ) || defined( __APPLE__ )
+#include <string.h> 
+#if defined( __linux__ ) || defined( __FreeBSD__ ) || defined( __APPLE__ ) || defined(__OpenBSD__)
 #include <dlfcn.h>
 #endif
 
@@ -88,7 +89,7 @@ BOOL ( WINAPI * qwglSwapIntervalEXT )( int interval );
 #define WINAPI
 #endif
 
-#if defined( __linux__ ) || defined( __FreeBSD__ ) || defined( __APPLE__ )
+#if defined( __linux__ ) || defined( __FreeBSD__ ) || defined( __APPLE__ ) || defined(__OpenBSD__)
 void* g_hGLDLL;
 
 XVisualInfo* ( *qglXChooseVisual )( Display * dpy, int screen, int *attribList );
@@ -1704,7 +1705,7 @@ int GL_ExtensionSupported( const char *extension ){
 }
 
 void* Sys_GLGetExtension( const char *symbol ){
-#if defined( __linux__ ) || defined( __FreeBSD__ ) || defined( __APPLE__ )
+#if defined( __linux__ ) || defined( __FreeBSD__ ) || defined( __APPLE__ ) || defined(__OpenBSD__)
 	if ( qglXGetProcAddressARB == NULL ) {
 		return NULL;
 	}

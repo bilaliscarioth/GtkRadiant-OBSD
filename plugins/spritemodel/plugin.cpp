@@ -169,7 +169,11 @@ static bool model_is_supported( const char* extension ){
 	const char **ext;
 	for ( ext = supportedmodelformats; *ext != NULL; ext++ )
 	{
+#ifndef __OpenBSD__
 		if ( stricmp( extension,*ext ) == 0 ) {
+#else
+		if ( strcmp( extension,*ext ) == 0 ) {
+#endif
 			return true;
 		}
 	}

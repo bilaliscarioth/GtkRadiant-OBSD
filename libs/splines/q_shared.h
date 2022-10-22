@@ -210,9 +210,20 @@ void Sys_PumpEvents( void );
 #endif
 
 #define PATH_SEP '/'
+//======================= FreeBSD DEFINES =================================
+#elif defined( __OpenBSD__ )
+
+#define MAC_STATIC
+
+#ifdef __i386__
+#define CPUSTRING   "OpenBSD-i386"
+#else
+#define CPUSTRING   "OpenBSD-other"
+#endif
+
+#define PATH_SEP '/'
 
 //=============================================================
-
 #else
 	#error unknown architecture
 #endif

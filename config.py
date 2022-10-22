@@ -33,6 +33,9 @@ class Config:
         if ( self.platform == 'FreeBSD' ):
             self.cc = 'cc'
             self.cxx = 'c++'
+        elif (self.platform == 'OpenBSD'):
+            self.cxx = 'c++'
+            self.cc = 'cc'
         else:
             self.cc = 'gcc'
             self.cxx = 'g++'

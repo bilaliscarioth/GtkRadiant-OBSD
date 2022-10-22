@@ -79,7 +79,11 @@ const char* ExtractFilename( const char* path ){
 }
 
 int Q_stricmp( const char *s1, const char *s2 ) {
+#ifndef __OpenBSD__
 	return stricmp( s1, s2 );
+#define
+	return strcmp( s1, s2 );
+#endif
 }
 
 /*

@@ -23,14 +23,13 @@
 // Linux stuff
 //
 // Leonardo Zide (leo@lokigames.com)
-//
 
 #include "stdafx.h"
 #include <gtk/gtk.h>
 #include <sys/stat.h>
 #include "gtkmisc.h"
 #include <glib/gi18n.h>
-#if defined( __linux__ ) || defined( __FreeBSD__ ) || defined( __APPLE__ )
+#if defined( __linux__ ) || defined( __FreeBSD__ ) || defined( __APPLE__ ) || defined(__OpenBSD__)
 #include <unistd.h>
 #include <X11/keysym.h>
 #include <gdk/gdkx.h>
@@ -248,7 +247,11 @@ void QE_CheckAutoSave( void ){
 			Sys_Status( strMsg,0 );
 
 			// only snapshot if not working on a default map
+#if !defined(__OpenBSD__)
 			if ( g_PrefsDlg.m_bSnapShots && stricmp( currentmap, "unnamed.map" ) != 0 ) {
+#else
+			if ( g_PrefsDlg.m_bSnapShots && strcmp( currentmap, "unnamed.map" ) != 0 ) {
+#endif
 				Map_Snapshot();
 			}
 			else
@@ -1145,7 +1148,11 @@ int CheckParm( const char *check ){
 
 	for ( i = 1; i < argc; i++ )
 	{
+#if !defined(__OpenBSD__)
 		if ( stricmp( check, argv[i] ) ) {
+#else
+		if ( strcmp( check, argv[i] ) ) {
+#endif
 			return i;
 		}
 	}
@@ -1333,7 +1340,7 @@ void Sys_SetCursorPos( int x, int y ){
 }
 
 void Sys_Beep( void ){
-#if defined( __linux__ ) || defined( __FreeBSD__ ) || defined( __APPLE__ )
+#if defined( __linux__ ) || defined( __FreeBSD__ ) || defined( __APPLE__ ) || defined(__OpenBSD__)
 	gdk_beep();
 #else
 	MessageBeep( MB_ICONASTERISK );

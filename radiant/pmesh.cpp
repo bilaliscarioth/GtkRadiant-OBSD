@@ -5910,7 +5910,11 @@ void Patch_SnapToGrid( patchMesh_t *p ){
 void Patch_FindReplaceTexture( brush_t *pb, const char *pFind, const char *pReplace, bool bForce ){
 	if ( pb->patchBrush ) {
 		patchMesh_t *p = pb->pPatch;
+#if !defined(__OpenBSD__)
 		if ( bForce || strcmpi( p->pShader->getName(), pFind ) == 0 ) {
+#else
+		if ( bForce || strcmp( p->pShader->getName(), pFind ) == 0 ) {
+#endif
 			p->pShader->DecRef();
 			p->pShader = QERApp_Shader_ForName( pReplace );
 			p->d_texture = p->pShader->getTexture();

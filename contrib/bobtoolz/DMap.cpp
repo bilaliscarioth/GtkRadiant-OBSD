@@ -120,7 +120,7 @@ int DMap::FixBrushes( bool rebuild ){
 	{
 		int cnt;
 
-		if ( !stricmp( "worldspawn", ( *fixEntity )->m_Classname ) ) {
+		if ( !strcmp( "worldspawn", ( *fixEntity )->m_Classname ) ) {
 			cnt = ( *fixEntity )->FixBrushes( rebuild );
 		}
 		else
@@ -142,7 +142,7 @@ void DMap::ResetTextures( const char* textureName, float fScale[2],      float f
 						  int bResetTextureName,  int bResetScale[2],  int bResetShift[2],  int bResetRotation ){
 	for ( std::list<DEntity *>::const_iterator texEntity = entityList.begin(); texEntity != entityList.end(); texEntity++ )
 	{
-		if ( !stricmp( "worldspawn", ( *texEntity )->m_Classname ) ) {
+		if ( !strcmp( "worldspawn", ( *texEntity )->m_Classname ) ) {
 			( *texEntity )->ResetTextures( textureName,        fScale,       fShift,       rotation, newTextureName,
 										   bResetTextureName,  bResetScale,  bResetShift,  bResetRotation, TRUE );
 		}

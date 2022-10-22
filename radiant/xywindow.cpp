@@ -367,7 +367,11 @@ qboolean IsModelEntity( const char *name )
 {
 	for ( size_t i = 0; i < model_classnames_count; i++ )
 	{
+#if !defined(__OpenBSD__)
 		if ( stricmp( name, model_classnames[i] ) == 0 )
+#else
+		if ( strcmp( name, model_classnames[i] ) == 0 )
+#endif
 		{
 			return qtrue;
 		}
@@ -378,7 +382,12 @@ qboolean IsModelEntity( const char *name )
 void CreateEntityFromName( const char* name, const vec3_t origin ){
 	entity_t *e;
 	brush_t* b;
+
+#if !defined(__OpenBSD__)
 	if ( stricmp( name, "worldspawn" ) == 0 ) {
+#else
+	if ( strcmp( name, "worldspawn" ) == 0 ) {
+#endif
 		gtk_MessageBox( g_pParentWnd->m_pWidget, _( "Can't create an entity with worldspawn." ), "info", 0 );
 		return;
 	}
@@ -414,9 +423,15 @@ void CreateEntityFromName( const char* name, const vec3_t origin ){
 
 	if ( g_pGameDescription->mGameFile == "hl.game" ) {
 		// FIXME - Hydra: really we need a combined light AND color dialog for halflife.
+#if !defined(__OpenBSD__)
 		if ( ( stricmp( name, "light" ) == 0 )  ||
 			 ( stricmp( name, "light_environment" ) == 0 ) ||
 			 ( stricmp( name, "light_spot" ) == 0 ) ) {
+#else
+		if ( ( strcmp( name, "light" ) == 0 )  ||
+			 ( strcmp( name, "light_environment" ) == 0 ) ||
+			 ( strcmp( name, "light_spot" ) == 0 ) ) {
+#endif
 			int intensity = g_PrefsDlg.m_iLastLightIntensity;
 
 			// Create and show the dialog box
@@ -433,7 +448,11 @@ void CreateEntityFromName( const char* name, const vec3_t origin ){
 	}
 	else
 	{
+#if !defined(__OpenBSD__)
 		if ( stricmp( name, "light" ) == 0 ) {
+#else
+		if ( strcmp( name, "light" ) == 0 ) {
+#endif
 			int intensity = g_PrefsDlg.m_iLastLightIntensity;
 
 			// Create and show the dialog box

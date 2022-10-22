@@ -257,7 +257,11 @@ inline IShader* shader_for_remap( const char* remap ){
 	for ( i = m_remaps.begin(); i != m_remaps.end(); ++i )
 	{
 		pRemap = ( *i );
+#ifndef __OpenBSD__
 		if ( stricmp( remap, pRemap->original ) == 0 ) {
+#else
+		if ( strcmp( remap, pRemap->original ) == 0 ) {
+#endif
 			break;
 		}
 	}

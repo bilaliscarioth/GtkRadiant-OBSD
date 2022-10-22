@@ -195,7 +195,7 @@ extern const char* PLUGIN_NAME;
     return buffer;
    }*/
 
-#if defined( __linux__ ) || defined( __FreeBSD__ ) || defined( __APPLE__ )
+#if defined( __linux__ ) || defined( __FreeBSD__ ) || defined( __APPLE__ ) || defined(__OpenBSD__)
 // the bCreateConsole parameter is ignored on linux ..
 bool Q_Exec( const char *pCmd, bool bCreateConsole ){
 	switch ( fork() )
@@ -332,7 +332,7 @@ entity_s* FindEntityFromTargetname( const char* targetname, int* entNum ){
 
 		DEPair* tn = world.FindEPairByKey( "targetname" );
 		if ( tn ) {
-			if ( !stricmp( tn->value, targetname ) ) {
+			if ( !strcmp( tn->value, targetname ) ) {
 				if ( entNum ) {
 					*entNum = i;
 				}

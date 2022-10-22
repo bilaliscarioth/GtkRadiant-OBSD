@@ -1785,7 +1785,11 @@ void FindReplaceTextures( const char* pFind, const char* pReplace, bool bSelecte
 		bool found = false; //spog
 		for ( face_t* pFace = pBrush->brush_faces; pFace; pFace = pFace->next )
 		{
+#if !defined(__OpenBSD__)
 			if ( bForce || strcmpi( pFace->pShader->getName(), pFind ) == 0 ) {
+#else
+			if ( bForce || strcmp( pFace->pShader->getName(), pFind ) == 0 ) {
+#endif
 				if ( !bSelectMatchingFaces ) {
 					pFace->pShader->DecRef();
 					pFace->pShader = QERApp_Shader_ForName( pReplace );
@@ -1850,7 +1854,11 @@ void Select_AllOfType(){
 			}
 
 			if ( b->patchBrush ) {
+#if !defined(__OpenBSD__)
 				if ( strcmpi( strName, b->pPatch->pShader->getName() ) == 0 ) {
+#else
+				if ( strcmp( strName, b->pPatch->pShader->getName() ) == 0 ) {
+#endif
 					Brush_RemoveFromList( b );
 					Brush_AddToList( b, &selected_brushes );
 				}
@@ -1859,7 +1867,11 @@ void Select_AllOfType(){
 			{
 				for ( face_t* pFace = b->brush_faces; pFace; pFace = pFace->next )
 				{
+#if !defined(__OpenBSD__)
 					if ( strcmpi( strName, pFace->texdef.GetName() ) == 0 ) {
+#else
+					if ( strcmp( strName, pFace->texdef.GetName() ) == 0 ) {
+#endif
 						Brush_RemoveFromList( b );
 						Brush_AddToList( b, &selected_brushes );
 					}
@@ -1892,7 +1904,11 @@ void Select_AllOfType(){
 
 				e = b->owner;
 				if ( e != NULL ) {
+#if !defined(__OpenBSD__)
 					if ( strcmpi( e->eclass->name, strName ) == 0 ) {
+#else
+					if ( strcmp( e->eclass->name, strName ) == 0 ) {
+#endif
 						bool doIt = true;
 						if ( bCriteria ) {
 							CString str = ValueForKey( e, strKey );

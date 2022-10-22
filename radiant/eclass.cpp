@@ -125,7 +125,11 @@ void EClass_InsertSortedList( eclass_t *&pList, eclass_t *e ){
 
 
 	s = pList;
+#if !defined(__OpenBSD__)
 	if ( stricmp( e->name, s->name ) < 0 ) {
+#else
+	if ( strcmp( e->name, s->name ) < 0 ) {
+#endif
 		e->next = s;
 		pList = e;
 		return;
@@ -133,7 +137,11 @@ void EClass_InsertSortedList( eclass_t *&pList, eclass_t *e ){
 
 	do
 	{
+#if !defined(__OpenBSD__)
 		if ( !s->next || stricmp( e->name, s->next->name ) < 0 ) {
+#else
+		if ( !s->next || strcmp( e->name, s->next->name ) < 0 ) {
+#endif
 			e->next = s->next;
 			s->next = e;
 			return;
@@ -230,7 +238,11 @@ void Eclass_CreateSpriteModelPaths(){
 				ExtractFileBase( (char *)pFile->data,filename );
 
 				// does the eclass name match the filename?
+#if !defined(__OpenBSD__)
 				if ( stricmp( e->name,filename ) == 0 ) {
+#else
+				if ( strcmp( e->name,filename ) == 0 ) {
+#endif
 					// yes, so generate a sprite filename using the all-encompasing .spr extension
 					// so that the model wrapper knows the sprite model plugin will be the model
 					// plugin used to render it.
@@ -312,8 +324,12 @@ eclass_t * EClass_Create( const char *name, float col1, float col2, float col3, 
 		// a) no entity definition plugin exists
 		// b) no entity definition files were found
 		// c) no entity definition file contained an entry for worldspawn.
-
+#if !defined(__OpenBSD__)
 		if ( stricmp( name, "worldspawn" ) != 0 ) {
+#else
+		if ( strcmp( name, "worldspawn" ) != 0 ) {
+#endif 
+
 			e->fixedsize = true;
 		}
 

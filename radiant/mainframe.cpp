@@ -31,7 +31,7 @@
 #include <gdk/gdkkeysyms.h>
 #include <gdk/gdkprivate.h>
 #include <sys/stat.h>
-#if defined( __linux__ ) || defined( __FreeBSD__ ) || defined( __APPLE__ )
+#if defined( __linux__ ) || defined( __FreeBSD__ ) || defined( __APPLE__ ) || defined(__OpenBSD__)
   #include <unistd.h>
 #endif
 #include "gtkmisc.h"
@@ -2184,7 +2184,7 @@ void Clipboard_PasteMap(){
    Platform-independent GTK clipboard support.
    \todo Using GDK_SELECTION_CLIPBOARD fails on win32, so we use the win32 API directly for now.
  */
-#if defined( __linux__ ) || defined( __FreeBSD__ ) || defined( __APPLE__ )
+#if defined( __linux__ ) || defined( __FreeBSD__ ) || defined( __APPLE__ ) || defined(__OpenBSD__)
 
 enum
 {
@@ -3543,8 +3543,11 @@ void MainFrame::OnDestroy(){
 		gtk_widget_destroy( g_pGroupDlg->m_pWidget );
 		g_pGroupDlg->m_pWidget = NULL;
 	}
-
+#if !defined(__OpenBSD__)
 	if ( strcmpi( currentmap, "unnamed.map" ) != 0 ) {
+#else
+	if ( strcmp( currentmap, "unnamed.map" ) != 0 ) {
+#endif
 		g_PrefsDlg.m_strLastMap = currentmap;
 		g_PrefsDlg.SavePrefs();
 	}
@@ -3611,7 +3614,7 @@ void MainFrame::LoadCommandMap(){
 	int j;
 
 
-#if defined( __linux__ ) || defined( __FreeBSD__ ) || defined( __APPLE__ )
+#if defined( __linux__ ) || defined( __FreeBSD__ ) || defined( __APPLE__ ) || defined(__OpenBSD__)
 	strINI = g_PrefsDlg.m_rc_path->str;
 #elif defined( WIN32 )
 	strINI = g_strGameToolsPath;
@@ -5815,11 +5818,19 @@ void MainFrame::OnBspCommand( unsigned int nID ){
 	}
 
 	// if the map has not been saved yet we need to handle it now before we start processing the BSP commands
+#if !defined(__OpenBSD__)
 	if ( stricmp( currentmap, "unnamed.map" ) == 0 ) {
+#else
+	if ( strcmp( currentmap, "unnamed.map" ) == 0 ) {
+#endif
 		OnFileSaveas();
 	}
 
+#if !defined(__OpenBSD__)
 	if ( g_PrefsDlg.m_bSnapShots && ( stricmp( currentmap, "unnamed.map" ) != 0 ) ) {
+#else
+	if ( g_PrefsDlg.m_bSnapShots && ( strcmp( currentmap, "unnamed.map" ) != 0 ) ) {
+#endif
 		Map_Snapshot();
 	}
 
@@ -7153,7 +7164,11 @@ void MainFrame::OnPatchTab(){
 		brush_t *b2, *b = selected_brushes.next;
 		entity_t * e;
 		if ( b != &selected_brushes ) {
+#if !defined(__OpenBSD__)
 			if ( strcmpi( b->owner->eclass->name, "worldspawn" ) != 0 ) {
+#else
+			if ( strcmp( b->owner->eclass->name, "worldspawn" ) != 0 ) {
+#endif
 				e = b->owner;
 				Select_Deselect();
 				for ( b2 = e->brushes.onext ; b2 != &e->brushes ; b2 = b2->onext )
@@ -7181,7 +7196,11 @@ void MainFrame::OnSelectFuncGroup(){
 	brush_t *b = selected_brushes.next;
 	entity_t * e;
 	if ( b != &selected_brushes ) {
+#if !defined(__OpenBSD__)
 		if ( strcmpi( b->owner->eclass->name, "worldspawn" ) != 0 ) {
+#else
+		if ( strcmp( b->owner->eclass->name, "worldspawn" ) != 0 ) {
+#endif
 			e = b->owner;
 			Select_SelectGroup( e );
 		}

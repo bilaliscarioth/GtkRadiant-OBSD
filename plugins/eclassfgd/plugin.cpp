@@ -353,9 +353,13 @@ class_t *Find_Class( GSList *l,char *classname, class_t *ignore ){
 		}
 
 		// NOTE: to speed up we could make all the classnames lower-case when they're initialised.
+#ifndef __OpenBSD__
 		if ( !stricmp( c->classname,classname ) ) {
+#else
+		if ( !strcmp( c->classname,classname ) ) {
 			return c;
 		}
+#endif
 
 	}
 	return NULL;
@@ -652,13 +656,26 @@ void Eclass_ScanFile( char *filename ){
 		strcpy( temp,token + 1 ); // skip the @
 
 		classtype = CLASS_NOCLASS;
+#ifndef __OpenBSD__
 		if ( !stricmp( temp,"BaseClass" ) ) {
+#else
+		if ( !strcmp( temp,"BaseClass" ) ) {
+#endif
 			classtype = CLASS_BASECLASS;
 		}
+#ifndef __OpenBSD__
 		if ( !stricmp( temp,"PointClass" ) ) {
+#else
+		if ( !strcmp( temp,"PointClass" ) ) {
+#endif
 			classtype = CLASS_POINTCLASS;
 		}
+
+#ifndef __OpenBSD__
 		if ( !stricmp( temp,"SolidClass" ) ) {
+#else
+		if ( !strcmp( temp,"SolidClass" ) ) {
+#endif
 			classtype = CLASS_SOLIDCLASS;
 		}
 

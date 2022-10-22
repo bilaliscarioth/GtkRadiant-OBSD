@@ -19,6 +19,8 @@
    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
+//stricmp
+
 #include "stdafx.h"
 #include "winding.h"
 #include "filters.h"
@@ -147,7 +149,11 @@ brush_t *Brush_Merge( brush_t *brush1, brush_t *brush2, int onlyshape ){
 			//
 			if ( Plane_Equal( &face1->plane, &face2->plane, false ) ) {
 				//if the texture/shader references should be the same but are not
+#if !defined(__OpenBSD__)
 				if ( !onlyshape && stricmp( face1->texdef.GetName(), face2->texdef.GetName() ) != 0 ) {
+#else
+				if ( !onlyshape && strcmp( face1->texdef.GetName(), face2->texdef.GetName() ) != 0 ) {
+#endif
 					return NULL;
 				}
 				continue;
@@ -386,7 +392,7 @@ brush_t *Brush_MergeList( brush_t *brushlist, int onlyshape ){
 					//
 					if ( Plane_Equal( &face1->plane, &face2->plane, false ) ) {
 						//if the texture/shader references should be the same but are not
-						if ( !onlyshape && stricmp( face1->texdef.GetName(), face2->texdef.GetName() ) != 0 ) {
+						if ( !onlyshape && strcmp( face1->texdef.GetName(), face2->texdef.GetName() ) != 0 ) {
 							return NULL;
 						}
 						continue;

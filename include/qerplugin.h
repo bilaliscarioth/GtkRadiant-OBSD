@@ -20,7 +20,7 @@
  */
 
 // QERadiant PlugIns
-//
+// Q_Exec
 //
 
 #ifndef __QERPLUGIN_H__

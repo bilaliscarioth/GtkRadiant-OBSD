@@ -1084,8 +1084,11 @@ static void proplist_selection_changed( GtkTreeSelection* selection, gpointer da
 	char* key;
 	char* val;
 	gtk_tree_model_get( model, &iter, 0, &key, 1, &val, -1 );
-
+#if !defined(__OpenBSD__)
 	if ( stricmp( key, "classname" ) == 0 ) {
+#else
+	if ( strcmp( key, "classname" ) == 0 ) {
+#endif
 		gtk_widget_set_sensitive( del_button, FALSE );
 	}
 

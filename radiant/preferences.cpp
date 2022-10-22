@@ -29,7 +29,7 @@
 #include <glib.h>
 #include <glib/gi18n.h>
 #include <assert.h>
-#if defined( __linux__ ) || defined( __FreeBSD__ ) || defined( __APPLE__ )
+#if defined( __linux__ ) || defined( __FreeBSD__ ) || defined( __APPLE__ ) || defined(__OpenBSD__)
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <fcntl.h>
@@ -696,12 +696,12 @@ PrefsDlg::PrefsDlg (){
 #define ENGINEPATH_ATTRIBUTE "enginepath_win32"
 #define MP_ENGINE_ATTRIBUTE "mp_engine_win32"
 #define PREFIX_ATTRIBUTE "prefix_win32"
-#elif defined( __linux__ ) || defined ( __FreeBSD__ )
-#define TOOLS_ATTRIBUTE "gametools_linux"
-#define EXECUTABLES_ATTRIBUTE "executables_linux"
-#define ENGINE_ATTRIBUTE "engine_linux"
-#define ENGINEPATH_ATTRIBUTE "enginepath_linux"
-#define MP_ENGINE_ATTRIBUTE "mp_engine_linux"
+#elif defined( __linux__ ) || defined ( __FreeBSD__ ) || defined(__OpenBSD__)
+#define TOOLS_ATTRIBUTE "gametools_unix"
+#define EXECUTABLES_ATTRIBUTE "executables_unix"
+#define ENGINE_ATTRIBUTE "engine_unix"
+#define ENGINEPATH_ATTRIBUTE "enginepath_unix"
+#define MP_ENGINE_ATTRIBUTE "mp_engine_unix"
 #define PREFIX_ATTRIBUTE "prefix"
 #elif defined( __APPLE__ )
 #define TOOLS_ATTRIBUTE "gametools_macos"
@@ -3875,6 +3875,7 @@ void CGameInstall::ScanGames() {
 	pakPaths += "installs/";
 	FindFiles fileScan( pakPaths.GetBuffer() );
 	while ( ( dirname = fileScan.NextFile() ) != NULL ) {
+#if !defined(__OpenBSD__)
 		if ( stricmp( dirname, Q3_PACK ) == 0 ) {
 			m_availGames[ iGame++ ] = GAME_Q3;
 		}
@@ -3923,6 +3924,56 @@ void CGameInstall::ScanGames() {
 		if ( stricmp( dirname, UNVANQUISHED_PACK ) == 0) {
 			m_availGames[ iGame++ ] = GAME_UNVANQUISHED;
 		}
+#else
+	 if ( strcmp( dirname, Q3_PACK ) == 0 ) {
+			m_availGames[ iGame++ ] = GAME_Q3;
+		}
+		if ( strcmp( dirname, URT_PACK ) == 0 ) {
+			m_availGames[ iGame++ ] = GAME_URT;
+		}
+		if ( strcmp( dirname, UFOAI_PACK ) == 0 ) {
+			m_availGames[ iGame++ ] = GAME_UFOAI;
+		}
+		if ( strcmp( dirname, QUETOO_PACK ) == 0 ) {
+			m_availGames[ iGame++ ] = GAME_QUETOO;
+		}
+		if ( strcmp( dirname, WARSOW_PACK ) == 0 ) {
+			m_availGames[ iGame++ ] = GAME_WARSOW;
+		}
+		if ( strcmp( dirname, NEXUIZ_PACK ) == 0 ) {
+			m_availGames[ iGame++ ] = GAME_NEXUIZ;
+		}
+		if ( strcmp( dirname, Q2_PACK ) == 0 ) {
+			m_availGames[ iGame++ ] = GAME_Q2;
+		}
+		if ( strcmp( dirname, TREMULOUS_PACK ) == 0 ) {
+			m_availGames[ iGame++ ] = GAME_TREMULOUS;
+		}
+		if ( strcmp( dirname, JA_PACK ) == 0 ) {
+			m_availGames[ iGame++ ] = GAME_JA;
+		}
+		if ( strcmp( dirname, REACTION_PACK ) == 0 ) {
+			m_availGames[ iGame++ ] = GAME_REACTION;
+		}
+		if ( strcmp( dirname, ET_PACK ) == 0 ) {
+			m_availGames[ iGame++ ] = GAME_ET;
+		}
+		if ( strcmp( dirname, QL_PACK ) == 0 ) {
+			m_availGames[ iGame++ ] = GAME_QL;
+		}
+		if ( strcmp( dirname, STVEF_PACK ) == 0 ) {
+			m_availGames[ iGame++ ] = GAME_STVEF;
+		}
+		if ( strcmp( dirname, WOLF_PACK ) == 0) {
+			m_availGames[ iGame++ ] = GAME_WOLF;
+		}
+		if ( strcmp( dirname, Q1_PACK ) == 0 ) {
+			m_availGames[ iGame++ ] = GAME_Q1;
+		}
+		if ( strcmp( dirname, UNVANQUISHED_PACK ) == 0) {
+			m_availGames[ iGame++ ] = GAME_UNVANQUISHED;
+		}
+#endif
 	}
 	Sys_Printf( "No installable games found in: %s\n",
 				pakPaths.GetBuffer() );

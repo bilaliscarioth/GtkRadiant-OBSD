@@ -28,6 +28,9 @@
    SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+
+// strcmp
+
 #ifndef __STR__
 #define __STR__
 
@@ -74,6 +77,35 @@ inline char* Q_StrDup( const char* pStr ) {
 
 	return strcpy( new char[strlen( pStr ) + 1], pStr );
 }
+
+#if defined(__OpenBSD__)
+#define strcmp strcasecmp
+
+inline char* strlwr( char* string ){
+	char *cp;
+	for ( cp = string; *cp; ++cp )
+	{
+		if ( 'A' <= *cp && *cp <= 'Z' ) {
+			*cp += 'a' - 'A';
+		}
+	}
+
+	return string;
+}
+
+inline char* strupr( char* string ){
+	char *cp;
+	for ( cp = string; *cp; ++cp )
+	{
+		if ( 'a' <= *cp && *cp <= 'z' ) {
+			*cp += 'A' - 'a';
+		}
+	}
+
+	return string;
+}
+#endif
+
 
 #if defined( __linux__ ) || defined( __FreeBSD__ ) || defined( __APPLE__ )
 #define strcmpi strcasecmp
@@ -317,6 +349,7 @@ void Format( const char* fmt, ... ){
 	g_free( buffer );
 }
 #else
+
 void Format( const char* fmt, ... ){
 	va_list args;
 	m_pStr = new char[1024];
@@ -424,7 +457,7 @@ Str& operator +=( const char *pStr ){
 	return *this;
 }
 
-
+#if !defined(__OpenBSD__)
 bool operator ==( const Str& rhs ) const { return ( m_bIgnoreCase ) ? stricmp( m_pStr, rhs.m_pStr ) == 0 : strcmp( m_pStr, rhs.m_pStr ) == 0; }
 bool operator ==( char* pStr ) const { return ( m_bIgnoreCase ) ? stricmp( m_pStr, pStr ) == 0 : strcmp( m_pStr, pStr ) == 0; }
 bool operator ==( const char* pStr ) const { return ( m_bIgnoreCase ) ? stricmp( m_pStr, pStr ) == 0 : strcmp( m_pStr, pStr ) == 0; }
@@ -437,6 +470,22 @@ bool operator <( const char* pStr ) const { return ( m_bIgnoreCase ) ? stricmp( 
 bool operator >( const Str& rhs ) const { return ( m_bIgnoreCase ) ? stricmp( m_pStr, rhs.m_pStr ) > 0 : strcmp( m_pStr, rhs.m_pStr ) > 0; }
 bool operator >( char* pStr ) const { return ( m_bIgnoreCase ) ? stricmp( m_pStr, pStr ) > 0 : strcmp( m_pStr, pStr ) > 0; }
 bool operator >( const char* pStr ) const { return ( m_bIgnoreCase ) ? stricmp( m_pStr, pStr ) > 0 : strcmp( m_pStr, pStr ) > 0; }
+#else
+bool operator ==( const Str& rhs ) const { return ( m_bIgnoreCase ) ? strcmp( m_pStr, rhs.m_pStr ) ==  0 : false ; }
+bool operator ==( char* pStr ) const { return ( m_bIgnoreCase ) ? strcmp( m_pStr, pStr ) == 0 : false; }
+bool operator ==( const char* pStr ) const { return ( m_bIgnoreCase ) ? strcmp( m_pStr, pStr ) == 0 : false ; }
+bool operator !=( Str& rhs ) const { return ( m_bIgnoreCase ) ? strcmp( m_pStr, rhs.m_pStr ) != 0 : false; }
+bool operator !=( char* pStr ) const { return ( m_bIgnoreCase ) ? strcmp( m_pStr, pStr ) != 0 : false ; }
+bool operator !=( const char* pStr ) const { return ( m_bIgnoreCase ) ? strcmp( m_pStr, pStr ) != 0 : false; }
+bool operator <( const Str& rhs ) const { return ( m_bIgnoreCase ) ? strcmp( m_pStr, rhs.m_pStr ) < 0: false; }
+bool operator <( char* pStr ) const { return ( m_bIgnoreCase ) ? strcmp( m_pStr, pStr ) < 0 : false; }
+bool operator <( const char* pStr ) const { return ( m_bIgnoreCase ) ?  strcmp( m_pStr, pStr ) < 0 : false; }
+bool operator >( const Str& rhs ) const { return ( m_bIgnoreCase ) ? strcmp( m_pStr, rhs.m_pStr ) > 0 : false; }
+bool operator >( char* pStr ) const { return ( m_bIgnoreCase ) ? strcmp( m_pStr, pStr ) > 0 : false; }
+bool operator >( const char* pStr ) const { return ( m_bIgnoreCase ) ? strcmp( m_pStr, pStr ) > 0: false; }
+
+#endif
+
 char& operator []( int nIndex ) { return m_pStr[nIndex]; }
 char& operator []( int nIndex ) const { return m_pStr[nIndex]; }
 const char GetAt( int nIndex ) { return m_pStr[nIndex]; }

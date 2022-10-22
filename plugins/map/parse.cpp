@@ -130,7 +130,11 @@ char *CheckCacheForTextureName( const char *cleantexturename ){
 	for ( l = g_TextureNameCache; l != NULL ; l = l->next )
 	{
 		str = (char *)l->data;
+#ifndef __OpenBSD__
 		if ( ( strnicmp( cleantexturename,str,len ) == 0 ) && ( str[len] == ';' ) ) { // must do in this order or we'll get an access violation, even though it's slower.
+#else
+		if ( ( strncmp( cleantexturename,str,len ) == 0 ) && ( str[len] == ';' ) ) { // must do in this order or we'll get an access violation, even though it's slower.
+#endif
 			return ( str + len + 1 ); // skip the delimiter ;
 		}
 	}
@@ -585,7 +589,11 @@ void Entity_Parse( entity_t *pEntity ){
 
 			if ( g_MapVersion == MAPVERSION_HL ) {
 				// if we've not god a "wads" key/pair already, then break it into a list.
+#ifndef __OpenBSD__
 				if ( !g_WadList && ( stricmp( temptoken,"wad" ) == 0 ) ) {
+#else
+				if ( !g_WadList && ( strcmp( temptoken,"wad" ) == 0 ) ) {
+#endif
 					BuildWadList( token );
 				}
 			}
