@@ -78,7 +78,7 @@ void CheckWatchit( char *msg );
 // if they are missing, you NEED to run makeversion.sh
 // NOTE: for win32 users, cygwin installation is REQUIRED to run makeversion.sh
 // NOTE TTimo if any of those changes (they might change a lot), then the whole app is rebuilt.
-//   very often it's not necessary
+//   very often it's not necessary c
 #include "version.h"
 #include "aboutmsg.h"
 

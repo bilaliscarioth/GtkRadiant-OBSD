@@ -56,7 +56,8 @@ bool radCopyFile( const char *lpExistingFileName, const char *lpNewFileName, boo
 	char realsrc[PATH_MAX], realdest[PATH_MAX];
 
 	realpath( lpExistingFileName, realsrc );
-	realpath( lpNewFileName, realdest );
+	//realpath( lpNewFileName, realdest );
+    Sys_Printf("dest files %s %s", lpNewFileName, realdest);
 
 	src = fopen( realsrc, "rb" );
 	if ( !src ) {
@@ -66,7 +67,9 @@ bool radCopyFile( const char *lpExistingFileName, const char *lpNewFileName, boo
       Sys_Printf( "Failed to open source for copy: %s\n", realsrc );      
       return false;
 	}
-	dst = fopen( realdest, "wb" );
+
+	dst = fopen( lpNewFileName, "wb" );
+
 	if ( !dst ) {
       if ( fatal_on_error ) {
         Error( "Failed to open destination for copy: %s\n", realdest );

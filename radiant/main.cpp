@@ -477,8 +477,8 @@ int mainRadiant( int argc, char* argv[] ) {
 			libgl = "libGL.so.1";
 		#elif defined ( __APPLE__ )
 			libgl = "/opt/local/lib/libGL.dylib";
-    #elif defined(__OpenBSD__)
-      libgl = "libGL.a";
+		#elif defined(__OpenBSD__)
+			libgl = "libGL.so.17.1";
 		#else
 			#error unknown architecture
 		#endif

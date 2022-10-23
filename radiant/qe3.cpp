@@ -170,7 +170,7 @@ void Map_Snapshot(){
 		bGo = ( _mkdir( strOrgPath ) != -1 );
 #endif
 
-#if defined( __linux__ ) || defined( __FreeBSD__ ) || defined( __APPLE__ )
+#if defined( __linux__ ) || defined( __FreeBSD__ ) || defined( __APPLE__ ) || defined(__OpenBSD__)
 		bGo = ( mkdir( strOrgPath,0755 ) != -1 );
 #endif
 	}
@@ -291,7 +291,7 @@ int BuildShortPathName( const char* pPath, char* pBuffer, int nBufferLen ){
 }
 #endif
 
-#if defined( __linux__ ) || defined( __FreeBSD__ ) || defined( __APPLE__ )
+#if defined( __linux__ ) || defined( __FreeBSD__ ) || defined( __APPLE__ ) || defined(__OpenBSD__)
 int BuildShortPathName( const char* pPath, char* pBuffer, int nBufferLen ){
 	// remove /../ from directories
 	const char *scr = pPath; char *dst = pBuffer;
@@ -1219,7 +1219,7 @@ bool Sys_AltDown(){
 	return ( GetKeyState( VK_MENU ) & 0x8000 ) != 0;
 #endif
 
-#if defined( __linux__ ) || defined( __FreeBSD__ ) || defined( __APPLE__ )
+#if defined( __linux__ ) || defined( __FreeBSD__ ) || defined( __APPLE__ ) || defined(__OpenBSD__)
 	char keys[32];
 	int x;
 
@@ -1255,7 +1255,7 @@ bool Sys_ShiftDown(){
 	return ( GetKeyState( VK_SHIFT ) & 0x8000 ) != 0;
 #endif
 
-#if defined( __linux__ ) || defined( __FreeBSD__ ) || defined( __APPLE__ )
+#if defined( __linux__ ) || defined( __FreeBSD__ ) || defined( __APPLE__ ) || defined(__OpenBSD__)
 	char keys[32];
 	int x;
 
@@ -1713,7 +1713,7 @@ void Sys_LogFile( void ){
 		Str name;
 		name = g_strTempPath;
 		name += "radiant.log";
-#if defined( __linux__ ) || defined( __FreeBSD__ ) || defined( __APPLE__ )
+#if defined( __linux__ ) || defined( __FreeBSD__ ) || defined( __APPLE__ ) || defined(__OpenBSD__)
 		g_qeglobals.hLogFile = open( name.GetBuffer(), O_TRUNC | O_CREAT | O_WRONLY, S_IREAD | S_IWRITE );
 #endif
 #ifdef _WIN32
@@ -1740,7 +1740,7 @@ void Sys_LogFile( void ){
 		#ifdef _WIN32
 		_close( g_qeglobals.hLogFile );
 		#endif
-		#if defined( __linux__ ) || defined( __FreeBSD__ ) || defined( __APPLE__ )
+		#if defined( __linux__ ) || defined( __FreeBSD__ ) || defined( __APPLE__ ) || defined(__OpenBSD__)
 		close( g_qeglobals.hLogFile );
 		#endif
 		g_qeglobals.hLogFile = 0;
@@ -1768,7 +1768,7 @@ extern "C" void Sys_FPrintf_VA( int level, const char *text, va_list args ) {
 		_write( g_qeglobals.hLogFile, buf, length );
 		_commit( g_qeglobals.hLogFile );
 #endif
-#if defined( __linux__ ) || defined( __FreeBSD__ ) || defined( __APPLE__ )
+#if defined( __linux__ ) || defined( __FreeBSD__ ) || defined( __APPLE__ ) || defined(__OpenBSD__)
 		write( g_qeglobals.hLogFile, buf, length );
 #endif
 	}

@@ -526,7 +526,7 @@ void QGL_Shutdown(){
 		FreeLibrary( g_hGLDLL );
 #endif
 
-#if defined( __linux__ ) || defined( __FreeBSD__ ) || defined( __APPLE__ )
+#if defined( __linux__ ) || defined( __FreeBSD__ ) || defined( __APPLE__ ) || defined(__OpenBSD__)
 		dlclose( g_hGLDLL );
 #endif
 
@@ -937,7 +937,7 @@ void QGL_Shutdown(){
 	qwglSetDeviceGammaRampEXT    = NULL;
 #endif
 
-#if defined( __linux__ ) || defined( __FreeBSD__ ) || defined( __APPLE__ )
+#if defined( __linux__ ) || defined( __FreeBSD__ ) || defined( __APPLE__ ) || defined(__OpenBSD__)
 	qglXChooseVisual             = NULL;
 	qglXCreateContext            = NULL;
 	qglXDestroyContext           = NULL;
@@ -987,7 +987,7 @@ static void* safe_dlsym( void *handle, char *symbol ){
 	return GetProcAddress( handle, symbol );
 #endif
 
-#if defined( __linux__ ) || defined( __FreeBSD__ ) || defined( __APPLE__ )
+#if defined( __linux__ ) || defined( __FreeBSD__ ) || defined( __APPLE__ ) || defined(__OpenBSD__)
 	void* ret = dlsym( handle, symbol );
 	const char *err = dlerror();
 	if ( err ) {
@@ -1175,7 +1175,7 @@ int QGL_Init( const char *dllname, const char* gluname ){
 	g_hGLDLL = LoadLibrary( dllname );
 #endif
 
-#if defined( __linux__ ) || defined( __FreeBSD__ ) || defined( __APPLE__ )
+#if defined( __linux__ ) || defined( __FreeBSD__ ) || defined( __APPLE__ ) || defined(__OpenBSD__)
 	const char *err;
 
 	// NOTE TTimo
@@ -1624,7 +1624,7 @@ int QGL_Init( const char *dllname, const char* gluname ){
 	qglMTexCoord2fSGIS = 0;
 #endif
 
-#if defined( __linux__ ) || defined( __FreeBSD__ ) || defined( __APPLE__ )
+#if defined( __linux__ ) || defined( __FreeBSD__ ) || defined( __APPLE__ ) || defined(__OpenBSD__)
 	qglXChooseVisual             = safe_dlsym( g_hGLDLL, "glXChooseVisual" );
 	qglXCreateContext            = safe_dlsym( g_hGLDLL, "glXCreateContext" );
 	qglXDestroyContext           = safe_dlsym( g_hGLDLL, "glXDestroyContext" );
